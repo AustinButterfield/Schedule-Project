@@ -133,11 +133,14 @@ void Schedule::setDayNumber(int userDay, int userMonth, int userYear)
 	//This adjusts the month values
 	if (userMonth == 1 || userMonth == 2)
 	{
-		userMonth = userMonth +12;
-		userYear = userYear -1;
+		userMonth += 12;
+		userYear -= 1;
 	}
 	//Calculates the day of the week using the Zeller Congruence Algorithm
-	daynumber = (userDay + (int)std::floor((13 * (userMonth + 1)) / 5) + (userYear % 100) + (int)std::floor((userYear % 100) / 4) + (int)std::floor(((int)std::floor(userYear / 100)) / 4) + 5 * (int)std::floor(userYear / 7)) % 7;
+	int y = (userYear % 100);
+	int j = (userYear /100);
+	daynumber = userDay + 13*(userMonth+1)/5 + y + (y/4) + (j/4) + (5*j);
+	daynumber = (daynumber % 7);
 }	
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -305,7 +308,7 @@ void ScheduleArray::printSchedule(Schedule* schedule)
 void ScheduleArray::displaySchedule()
 {
 	//This prints out a header for the data
-	std::cout << "\n\nSCHEDULE FOR THE DAY\n" << std::endl;
+	std::cout << "\n\nSCHEDULE\n" << std::endl;
 
 	//This prints out the entire array
 	for (int i = 0; i < currentSchedules; i++)
